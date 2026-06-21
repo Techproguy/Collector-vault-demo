@@ -1,0 +1,58 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ---------------------------------------------------------------------------
+   MAISON ARCHIVE — global base styles
+   Deep near-black canvas, off-white type, refined rendering.
+--------------------------------------------------------------------------- */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-vault-black text-vault-ivory font-sans antialiased;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Restrained champagne-gold selection */
+  ::selection {
+    background: rgba(197, 165, 114, 0.25);
+    color: #f5f3ef;
+  }
+
+  /* Thin, quiet scrollbar in keeping with the vault aesthetic */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #0a0a0c;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #26262b;
+    border-radius: 9999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #3a3a40;
+  }
+}
+
+@layer utilities {
+  /* 1px champagne-gold hairline divider */
+  .hairline {
+    background-image: linear-gradient(
+      to right,
+      transparent,
+      rgba(197, 165, 114, 0.45),
+      transparent
+    );
+  }
+
+  /* Soft gold glow used for active / authenticated states */
+  .gold-glow {
+    box-shadow: 0 0 24px -6px rgba(197, 165, 114, 0.45);
+  }
+}
