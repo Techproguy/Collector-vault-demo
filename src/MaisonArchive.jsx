@@ -334,6 +334,111 @@ function WatchOutline({ className = '', stroke = '#C5A572' }) {
   )
 }
 
+/* ---------------------------------------------------------------------------
+   Per-watch silhouettes for The Collection cards.
+
+   Each is an abstract, thin-line champagne-gold suggestion of the model's
+   signature case shape — luxury-minimal, not a detailed illustration. All three
+   share the same 120×120 viewBox, 1.5px stroke and #C5A572 colour so the cards
+   stay cohesive while reading as distinct at a glance. Pure SVG, no images.
+   --------------------------------------------------------------------------- */
+
+const SILHOUETTE_STROKE = '#C5A572'
+
+/* Patek Philippe Nautilus — its iconic porthole / rounded-octagonal bezel.
+   A horizontally-elongated rounded octagon with a faint inner bezel echo. */
+function NautilusSilhouette({ className = '', stroke = SILHOUETTE_STROKE }) {
+  return (
+    <svg
+      viewBox="0 0 120 120"
+      fill="none"
+      className={className}
+      stroke={stroke}
+      strokeWidth="1.5"
+      strokeLinejoin="round"
+      strokeLinecap="round"
+    >
+      {/* outer porthole bezel — rounded octagon */}
+      <path d="M34 26 H86 L104 44 V76 L86 94 H34 L16 76 V44 Z" />
+      {/* inner bezel echo */}
+      <path
+        d="M40 36 H80 L94 50 V70 L80 84 H40 L26 70 V50 Z"
+        opacity="0.45"
+      />
+    </svg>
+  )
+}
+
+/* Richard Mille RM 011 — its tonneau (barrel / cushion) case, with two faint
+   subdial hints nodding to the flyback chronograph layout. */
+function TonneauSilhouette({ className = '', stroke = SILHOUETTE_STROKE }) {
+  return (
+    <svg
+      viewBox="0 0 120 120"
+      fill="none"
+      className={className}
+      stroke={stroke}
+      strokeWidth="1.5"
+      strokeLinejoin="round"
+      strokeLinecap="round"
+    >
+      {/* tonneau case — rounded rectangle with bowed sides */}
+      <path d="M44 24 H76 Q102 32 102 60 Q102 88 76 96 H44 Q18 88 18 60 Q18 32 44 24 Z" />
+      {/* chronograph subdial hints */}
+      <circle cx="49" cy="68" r="9" opacity="0.55" />
+      <circle cx="71" cy="68" r="9" opacity="0.55" />
+    </svg>
+  )
+}
+
+/* Audemars Piguet Royal Oak — its octagonal bezel with eight exposed screws,
+   suggested by a regular octagon and eight tiny dots at the corners. */
+function RoyalOakSilhouette({ className = '', stroke = SILHOUETTE_STROKE }) {
+  const corners = [
+    [45, 24],
+    [75, 24],
+    [96, 45],
+    [96, 75],
+    [75, 96],
+    [45, 96],
+    [24, 75],
+    [24, 45],
+  ]
+  return (
+    <svg
+      viewBox="0 0 120 120"
+      fill="none"
+      className={className}
+      stroke={stroke}
+      strokeWidth="1.5"
+      strokeLinejoin="round"
+      strokeLinecap="round"
+    >
+      {/* octagonal bezel */}
+      <path d="M45 24 H75 L96 45 V75 L75 96 H45 L24 75 V45 Z" />
+      {/* eight exposed screws */}
+      {corners.map(([cx, cy], i) => (
+        <circle key={i} cx={cx} cy={cy} r="2" fill={stroke} stroke="none" />
+      ))}
+    </svg>
+  )
+}
+
+/* Resolves a watch to its signature silhouette, falling back to the generic
+   watch outline for any future piece without a dedicated shape. */
+function WatchSilhouette({ watch, className = '', stroke = SILHOUETTE_STROKE }) {
+  switch (watch.id) {
+    case 'pp-5711':
+      return <NautilusSilhouette className={className} stroke={stroke} />
+    case 'rm-011':
+      return <TonneauSilhouette className={className} stroke={stroke} />
+    case 'ap-15500':
+      return <RoyalOakSilhouette className={className} stroke={stroke} />
+    default:
+      return <WatchOutline className={className} stroke={stroke} />
+  }
+}
+
 /* Slow-rotating concentric-ring / clock-face motif for the header background.
    Very low opacity so it reads as a quiet watch-face echo, not decoration. */
 function HeaderMotif() {
@@ -398,14 +503,17 @@ function WatchCard({ watch, index, onOpen }) {
       transition={{ duration: 0.55, delay: index * 0.12, ease: [0.22, 1, 0.36, 1] }}
       className="group relative flex flex-col overflow-hidden rounded-sm border border-white/5 bg-vault-panel/60 text-left transition-all duration-500 hover:-translate-y-1 hover:border-vault-gold/40 hover:gold-glow"
     >
-      {/* Image placeholder — dark gradient + thin gold watch outline */}
+      {/* Image placeholder — dark gradient + thin gold per-watch silhouette */}
       <div
         className="relative flex h-56 items-center justify-center"
         style={{
           background: `radial-gradient(120% 120% at 50% 25%, ${watch.accent}55 0%, #0A0A0C 70%)`,
         }}
       >
-        <WatchOutline className="h-32 w-32 transition-transform duration-700 group-hover:scale-105" />
+        <WatchSilhouette
+          watch={watch}
+          className="h-32 w-32 transition-transform duration-700 group-hover:scale-105"
+        />
         <div className="absolute left-4 top-4">
           {watch.authenticated && <GoldBadge>Authenticated</GoldBadge>}
         </div>
