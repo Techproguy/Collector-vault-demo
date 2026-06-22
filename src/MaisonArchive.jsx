@@ -382,11 +382,11 @@ function TonneauSilhouette({ className = '', stroke = SILHOUETTE_STROKE }) {
       strokeLinejoin="round"
       strokeLinecap="round"
     >
-      {/* tonneau case — rounded rectangle with bowed sides */}
-      <path d="M44 24 H76 Q102 32 102 60 Q102 88 76 96 H44 Q18 88 18 60 Q18 32 44 24 Z" />
-      {/* chronograph subdial hints */}
-      <circle cx="49" cy="68" r="9" opacity="0.55" />
-      <circle cx="71" cy="68" r="9" opacity="0.55" />
+      {/* tonneau / barrel case — vertical rounded rectangle with convex sides,
+          wider in the middle and narrowing at top and bottom */}
+      <path d="M46 22 H74 Q98 30 98 60 Q98 90 74 98 H46 Q22 90 22 60 Q22 30 46 22 Z" />
+      {/* subdial hint, upper-right */}
+      <circle cx="70" cy="44" r="7" opacity="0.55" />
     </svg>
   )
 }
